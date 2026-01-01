@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Generate a pdf from a groff .ms file
+
+if [ -z "$1" ]; then
+    echo "Usage: $0 <file-prefix>"
+    exit 1
+fi
+
+file=$(ls "$1"*.ms 2>/dev/null | head -n 1)
+
+if [ -z "$file" ]; then
+    echo "No .ms file found starting with '$1'"
+    exit 1
+fi
+
+outfile="${file%.ms}.pdf"
+
+groff -ms -Tpdf "$file" > "$outfile"
+
+echo "Created $outfile"
